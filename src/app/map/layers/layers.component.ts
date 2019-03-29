@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { geoJSON, latLng, Layer, tileLayer, LatLng, LeafletMouseEvent, Map } from 'leaflet';
 import { LayersModel } from './layers.model';
 import HeatmapOverlay from 'leaflet-heatmap';
+import Spb from '../../../assets/vacancies/spb.json';
 
 @Component({
   selector: 'app-map-layers',
@@ -10,6 +11,16 @@ import HeatmapOverlay from 'leaflet-heatmap';
   styleUrls: ['./layers.component.less']
 })
 export class LayersComponent {
+
+  constructor() {
+    this.data = {
+      data: Spb
+    };
+    
+    this.apply();
+
+    console.log('constructor:', this.data);
+  }
 
   // Open Street Map definition
   LAYER_OSM = {
@@ -78,16 +89,6 @@ export class LayersComponent {
     center: [46.879966, -121.726909]
   };
 
-  data = {
-    max: 8,
-    data: [ {lat: 46.879966, lng: -121.726909, count: 1},
-            {lat: 46.878766, lng: -121.726912, count: 3},
-            {lat: 46.877660, lng: -121.726920, count: 5},
-            {lat: 46.867660, lng: -121.726920, count: 10},
-
-    ]
-  };
-
   options = {
     zoom: this.optionsSpec.zoom,
     center: latLng(this.optionsSpec.center)
@@ -95,6 +96,8 @@ export class LayersComponent {
 
   zoom = this.optionsSpec.zoom;
   center = latLng(this.optionsSpec.center);
+
+  data: object;
 
   onCenterChange(center: LatLng) {
     console.log('TCL: onCenterChange -> center', center);
@@ -105,27 +108,22 @@ export class LayersComponent {
   }
 
   onMapReady(map: Map) {
-    map.on('mousemove', (event: LeafletMouseEvent) => {
-      this.heatmap.layer.setData(this.data);
-    });
+    console.log('onMapReady:', this.data);
+    this.heatmap.layer.setData(this.data);
   }
 
   goToCity(cityName: string) {
     this.zoom = 12;
     if (cityName === 'Spb') {
-      this.center = latLng(59.935981779824935, -329.724841142268);
+      this.center = latLng(59.91110594589895, 30.115283956688852);
     } else if (cityName === 'Kzn') {
-      this.center = latLng(55.789175743755926, -310.93545171236934);
+      this.center = latLng(55.77724883515888, 49.07249450683594);
     } else if (cityName === 'Vdk') {
-      this.center = latLng(43.11740099178686, -228.11127824899512);
+      this.center = latLng(43.12191085263059, 131.8620300292969);
       this.zoom = 13;
     } else if (cityName === 'Smr') {
-      this.center = latLng(53.20432027822806, -309.8117564226311);
+      this.center = latLng( 53.21055181685024, 50.0990622294388);
     }
-  }
-
-  constructor() {
-    this.apply();
   }
 
   apply() {
