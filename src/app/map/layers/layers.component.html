@@ -1,0 +1,19 @@
+<div leaflet class="map"
+	[leafletOptions]="options"
+	[leafletLayers]="layers"
+	[leafletLayersControl]="layersControl"
+	[leafletZoom]="zoom"
+	(leafletZoomChange)="onZoomChange($event)"
+  [leafletCenter]="center"
+  (leafletCenterChange)="onCenterChange($event)">
+</div>
+<div class="controlls"> 
+	<button class="go-to-city-btn" (click)="goToCity('Spb')">Spb</button>
+	<button class="go-to-city-btn" (click)="goToCity('Smr')">Smr</button>
+	<button class="go-to-city-btn" (click)="goToCity('Kzn')">Kzn</button>
+	<button class="go-to-city-btn" (click)="goToCity('Vdk')">Vdk</button>	
+</div>
+
+
+
+
