@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-import { circle, geoJSON, latLng, Layer, marker, polygon, tileLayer, LatLng } from 'leaflet';
-
+import { geoJSON, latLng, Layer, tileLayer, LatLng, LeafletMouseEvent, Map } from 'leaflet';
 import { LayersModel } from './layers.model';
+import HeatmapOverlay from 'leaflet-heatmap';
 
 @Component({
   selector: 'app-map-layers',
@@ -39,11 +39,26 @@ export class LayersComponent {
       { style: () => ({ color: '#ff7800' })})
   };
 
+  heatmap = {
+    id: 'heatmap',
+    name: 'Demo Heatmap',
+    enabled: true,
+    layer: new HeatmapOverlay({
+      radius: 0.01,
+      maxOpacity: 0.3,
+      scaleRadius: true,
+      useLocalExtrema: true,
+      latField: 'lat',
+      lngField: 'lng',
+      valueField: 'count'
+    })
+  };
+
   // Form model object
   model = new LayersModel(
     [ this.LAYER_OSM ],
     this.LAYER_OSM.id,
-    [ this.geoJSON ]
+    [ this.geoJSON, this.heatmap ]
   );
 
   // Values to bind to Leaflet Directive
@@ -53,13 +68,24 @@ export class LayersComponent {
       'Open Street Map': this.LAYER_OSM.layer,
     },
     overlays: {
-      GeoJSON: this.geoJSON.layer
+      GeoJSON: this.geoJSON.layer,
+      Heatmap: this.heatmap.layer
     }
   };
 
   optionsSpec: any = {
     zoom: 10,
     center: [46.879966, -121.726909]
+  };
+
+  data = {
+    max: 8,
+    data: [ {lat: 46.879966, lng: -121.726909, count: 1},
+            {lat: 46.878766, lng: -121.726912, count: 3},
+            {lat: 46.877660, lng: -121.726920, count: 5},
+            {lat: 46.867660, lng: -121.726920, count: 10},
+
+    ]
   };
 
   options = {
@@ -76,6 +102,12 @@ export class LayersComponent {
 
   onZoomChange(zoom: number) {
     console.log('TCL: onZoomChange -> zoom', zoom);
+  }
+
+  onMapReady(map: Map) {
+    map.on('mousemove', (event: LeafletMouseEvent) => {
+      this.heatmap.layer.setData(this.data);
+    });
   }
 
   goToCity(cityName: string) {

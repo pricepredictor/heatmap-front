@@ -87,7 +87,11 @@
             "styles": [
               "src/styles.less"
             ],
-            "scripts": [],
+            "scripts": [
+              "./node_modules/leaflet/dist/leaflet.js",
+              "./node_modules/heatmap.js/build/heatmap.js",
+              "./node_modules/leaflet-heatmap/leaflet-heatmap.js"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

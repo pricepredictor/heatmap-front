@@ -4,8 +4,9 @@
 	[leafletLayersControl]="layersControl"
 	[leafletZoom]="zoom"
 	(leafletZoomChange)="onZoomChange($event)"
-  [leafletCenter]="center"
-  (leafletCenterChange)="onCenterChange($event)">
+	[leafletCenter]="center"
+	(leafletCenterChange)="onCenterChange($event)"
+	(leafletMapReady)="onMapReady($event)">
 </div>
 <div class="controlls"> 
 	<button class="go-to-city-btn" (click)="goToCity('Spb')">Spb</button>
