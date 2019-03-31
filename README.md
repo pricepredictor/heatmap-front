@@ -3,7 +3,11 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.6.
 
 ## Dependancies
+
 run
+`npm install dependencies` to install all necessary dependencies from package.json
+
+for more granular control run
 `sudo npm install leaflet @asymmetrik/ngx-leaflet heatmap.js leaflet-heatmap` to install dependances
 
 run `sudo npm install --save-dev @types/leaflet to install` typings
